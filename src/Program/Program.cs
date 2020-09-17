@@ -20,6 +20,16 @@ namespace Program
 
             Console.WriteLine(wizard.Damage);
             Console.WriteLine(wizard.Health);
+
+            
+            Character dwarf = new Character("Enano Oscar", 100, 100, "enano");
+            Item sword = new Item("Escarbadiente", 20, 20);
+            Item hat= new Item("re fachero", 15, 35);
+            dwarf.AddItem(sword);
+            dwarf.AddItem(hat);
+
+            Console.WriteLine(dwarf.Damage);
+            Console.WriteLine(dwarf.Health);
         }
     }
 }
