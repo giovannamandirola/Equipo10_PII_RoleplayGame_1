@@ -8,11 +8,11 @@ namespace Library
         public int Damage { get; set; }
         public int Defense { get; set; }
 
-        public Item (string name, int health, int damage)
+        public Item (string name, int damage, int defense)
         {
             this.Name = name;
             this.Damage = damage;
-            this.Defense = health;
+            this.Defense = defense;
         }
     }
 }

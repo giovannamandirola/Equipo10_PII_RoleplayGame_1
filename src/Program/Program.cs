@@ -20,6 +20,12 @@ namespace Program
 
             Console.WriteLine(wizard.Damage);
             Console.WriteLine(wizard.Health);
+
+            Character elf = new Character("Elfpro", 100, 100, "elfo");
+            Item ropaje = new Item("Ropaje", 0, 5);
+            Item hacha = new Item("Hacha", 30, 0);
+            elf.AddItem(ropaje);
+            elf.AddItem(hacha);
         }
     }
 }
