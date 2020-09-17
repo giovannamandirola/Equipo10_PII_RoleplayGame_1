@@ -3,14 +3,11 @@ using System.Collections.Generic;
 
 namespace Library
 {
-
-
-
     public class Character
     {
         private string Name { get; set; }
         private int _health { get; set; }
-        private int Health 
+        public int Health 
         {
             get
             {
@@ -28,7 +25,7 @@ namespace Library
 
         private int _damage { get; set; }
 
-        private int Damage 
+        public int Damage 
         {
             get
             {
@@ -73,12 +70,34 @@ namespace Library
             {
                 if(value != null)
                 {
-                    this._items = value;
+                    value.ForEach(item => {
+                        this.AddItem(item);
+                    });
                 }
             }
         }
 
-        public Character(string name, int health, int damage, string type, List<Item> items = null)
+        private List<Spell> _spellsBook = new List<Spell>();
+
+        private List<Spell> SpellsBook
+        {
+            get
+            {
+                return this._spellsBook;
+            }
+
+            set
+            {
+                if(value != null && this.Type == "mago")
+                {
+                    value.ForEach(spell => {
+                        this.AddSpell(spell);
+                    });
+                }
+            }
+        }
+
+        public Character(string name, int health, int damage, string type, List<Item> items = null, List<Spell> spellsBook = null)
         {
             this.Name = name;
             this.Health = health;
@@ -86,6 +105,7 @@ namespace Library
             this.Type = type;
             this.Totalhealth = health;
             this.Items = items;
+            this.SpellsBook = spellsBook;
         }
 
         public void Cure()
@@ -135,5 +155,41 @@ namespace Library
             });
         }
 
+        public void AddSpell(Spell spell)
+        {
+            if(!ExistSpell(spell) && this.Type == "mago")
+            {
+                this.Damage += spell.Damage;
+                this.Health += spell.Defense;
+                this.Totalhealth += spell.Defense;
+                this._spellsBook.Add(spell);
+            }
+        }
+
+        public bool ExistSpell(Spell newSpell)
+        {
+            bool res = false;
+
+            this._spellsBook.ForEach(spell => {
+                if(spell.Name == newSpell.Name)
+                {
+                    res = true;
+                }
+            });
+
+            return res;
+        }
+
+        public void DeleteSpell(string spellName)
+        {
+            this._spellsBook.ForEach(spell => {
+                if(spell.Name == spellName)
+                {
+                    this._spellsBook.Remove(spell);
+                    this.Health -= spell.Defense;
+                    this.Totalhealth -= spell.Defense;
+                }
+            });
+        }
     }
 }
