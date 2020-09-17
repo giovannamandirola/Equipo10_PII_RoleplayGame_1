@@ -5,8 +5,8 @@ namespace Library
 {
     public class Character
     {
-        private string Name { get; set; }
-        private int _health { get; set; }
+        public string Name { get; set; }
+        private int _health;
         public int Health 
         {
             get
@@ -23,7 +23,7 @@ namespace Library
             }
         }
 
-        private int _damage { get; set; }
+        private int _damage;
 
         public int Damage 
         {
@@ -42,7 +42,7 @@ namespace Library
         }
         private string _type { get; set; }
 
-        private string Type
+        public string Type
         {
             get
             {
@@ -57,9 +57,9 @@ namespace Library
                 }
             }
         }
-        private int Totalhealth { get; set; }
+        public int Totalhealth { get; set; }
         private List<Item> _items = new List<Item>();
-        private List<Item> Items
+        public List<Item> Items
         {
             get
             {
@@ -79,7 +79,7 @@ namespace Library
 
         private List<Spell> _spellsBook = new List<Spell>();
 
-        private List<Spell> SpellsBook
+        public List<Spell> SpellsBook
         {
             get
             {
@@ -96,6 +96,7 @@ namespace Library
                 }
             }
         }
+        public int Defense { get; set; }
 
         public Character(string name, int health, int damage, string type, List<Item> items = null, List<Spell> spellsBook = null)
         {
@@ -115,7 +116,10 @@ namespace Library
 
         public void Atack(Character character)
         {
-            character.Health -= this.Damage;
+            if(this.Damage>character.Defense)
+            {
+                character.Health = character.Health + (character.Defense - this.Damage);
+            }
         }
 
         public void AddItem(Item item)
@@ -123,8 +127,7 @@ namespace Library
             if(!ExistItem(item))
             {
                 this.Damage += item.Damage;
-                this.Health += item.Defense;
-                this.Totalhealth += item.Defense;
+                this.Defense += item.Defense;
                 this._items.Add(item);
             }
         }
@@ -149,8 +152,8 @@ namespace Library
                 if(item.Name == itemName)
                 {
                     this._items.Remove(item);
-                    this.Health -= item.Defense;
-                    this.Totalhealth -= item.Defense;
+                    this.Defense -= item.Defense;
+                    this.Damage-= item.Damage;
                 }
             });
         }
@@ -160,8 +163,7 @@ namespace Library
             if(!ExistSpell(spell) && this.Type == "mago")
             {
                 this.Damage += spell.Damage;
-                this.Health += spell.Defense;
-                this.Totalhealth += spell.Defense;
+                this.Defense += spell.Defense;
                 this._spellsBook.Add(spell);
             }
         }
@@ -186,8 +188,8 @@ namespace Library
                 if(spell.Name == spellName)
                 {
                     this._spellsBook.Remove(spell);
-                    this.Health -= spell.Defense;
-                    this.Totalhealth -= spell.Defense;
+                    this.Defense -= spell.Defense;
+                    this.Damage-= spell.Damage;
                 }
             });
         }
