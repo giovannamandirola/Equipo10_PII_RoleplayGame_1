@@ -16,6 +16,10 @@ namespace Test.Library
             character = new Character("Test Character", 0, 0, "mago");
         }
 
+
+        /// <summary>
+        /// Test para comprobar que el daño de un enemigo no sea negativo, importante para evitar inconsistencias en el juego
+        /// </summary>
         [Test]
         public void SetNegativeDamage()
         {
@@ -23,6 +27,10 @@ namespace Test.Library
             Assert.AreEqual(character.Damage, 0);
         }
 
+
+        /// <summary>
+        /// Test para comprobar que la vida de un enemigo no sea negativo, importante para evitar inconsistencias en el juego
+        /// </summary>
         [Test]
         public void SetNegativeHealth()
         {
@@ -30,6 +38,9 @@ namespace Test.Library
             Assert.AreEqual(character.Health, 0);
         }
 
+        /// <summary>
+        /// Test para comprobar que se añada correctamente un item a un personaje, es importante ya que si falla significa que los items basicamente no participan en el juego
+        /// </summary>
         [Test]
         public void CheckAddItem()
         {
@@ -39,6 +50,10 @@ namespace Test.Library
             Assert.IsTrue(hasItem);
         }
 
+
+        /// <summary>
+        /// Test para comprobar que se añada correctamente el daño de un item a un personaje, es importante ya que si falla significa que no se añade correctamente el daño de un item a los personajes
+        /// </summary>
         [Test]
         public void CheckItemAddDamage()
         {
@@ -47,8 +62,12 @@ namespace Test.Library
             Assert.AreEqual(item.Damage, this.character.Damage);
         }
 
+
+        /// <summary>
+        /// Test para comprobar que se añada correctamente la defensa de un item a un personaje, es importante ya que si falla significa que no se añade correctamente la defensa de un item a los personajes
+        /// </summary>
         [Test]
-        public void CheckItemAddHealth()
+        public void CheckItemAddDefense()
         {
             Item item = new Item("Test Item", 50, 0);
             character.AddItem(item);
