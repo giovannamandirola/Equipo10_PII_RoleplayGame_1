@@ -57,7 +57,7 @@ namespace Library
                 }
             }
         }
-        public int Totalhealth { get; set; }
+        public int Totalhealth { get; }
         private List<Item> _items = new List<Item>();
         public List<Item> Items
         {
@@ -97,7 +97,6 @@ namespace Library
             }
         }
         public int Defense { get; set; }
-
         public Character(string name, int health, int damage, string type, List<Item> items = null, List<Spell> spellsBook = null)
         {
             this.Name = name;
@@ -114,9 +113,13 @@ namespace Library
             this.Health = this.Totalhealth;
         }
 
-        public void Atack(Character character)
+        public void Attack(Character character)
         {
-            if(this.Damage>character.Defense)
+            if(character.Health < (this.Damage-character.Defense))
+            {
+                character.Health = 0;
+            }
+            if(this.Damage > character.Defense)
             {
                 character.Health = character.Health + (character.Defense - this.Damage);
             }
@@ -148,14 +151,20 @@ namespace Library
 
         public void DeleteItem(string itemName)
         {
+            int index = 0;
             this._items.ForEach(item => {
                 if(item.Name == itemName)
                 {
-                    this._items.Remove(item);
+                    
                     this.Defense -= item.Defense;
                     this.Damage-= item.Damage;
                 }
+                else
+                {
+                    index++;
+                }
             });
+            this._items.Remove(_items[index]);
         }
 
         public void AddSpell(Spell spell)
@@ -184,14 +193,19 @@ namespace Library
 
         public void DeleteSpell(string spellName)
         {
+            int index = 0;
             this._spellsBook.ForEach(spell => {
                 if(spell.Name == spellName)
                 {
-                    this._spellsBook.Remove(spell);
                     this.Defense -= spell.Defense;
                     this.Damage-= spell.Damage;
                 }
+                else
+                {
+                    index++;
+                }
             });
+            this._spellsBook.Remove(_spellsBook[index]);
         }
     }
 }
